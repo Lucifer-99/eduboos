@@ -1,14 +1,13 @@
-
 <template>
-  <div id="app">
-    <router-view></router-view>
-  </div>
+  <div class="role">角色管理</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+
 export default defineComponent({
-  name: 'App',
+  name: "LoginIndex",
 });
 </script>
+
 <style lang="scss" scoped></style>
