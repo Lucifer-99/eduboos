@@ -4,18 +4,22 @@
       ref="forms"
       class="login-form"
       label-position="top"
-      :model="form"
+      :model="ruleform"
       :rules="rules"
       label-width="80px"
     >
       <el-form-item label="手机号" prop="phone">
-        <el-input v-model="form.phone"></el-input>
+        <el-input v-model="ruleform.phone"></el-input>
       </el-form-item>
       <el-form-item label="密码" prop="password">
-        <el-input v-model="form.password"></el-input>
+        <el-input v-model="ruleform.password"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" class="login-btn" @click="onSubmit"
+        <el-button
+          type="primary"
+          class="login-btn"
+          @click="onSubmit"
+          :loading="loginLoading"
           >登录</el-button
         >
       </el-form-item>
@@ -24,18 +28,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, unref } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import { login } from "@/services/user";
-import { ElForm } from "element-plus";
+import { ElMessage } from "element-plus";
+import { useRouter, useRoute } from "vue-router";
+import { useStore } from "vuex";
 export default defineComponent({
   name: "LoginIndex",
   setup() {
-    const form = reactive({
-      phone: "",
-      password: "",
+    let loginLoading = false;
+    const router = useRouter();
+    const store = useStore();
+    const route = useRoute();
+    const ruleform = reactive({
+      phone: "18201288771",
+      password: "111111",
     });
-    const forms = ref();
-    console.log(forms);
     const rules = {
       phone: [
         { required: true, message: "请输入手机号", trigger: "blur" },
@@ -55,14 +63,33 @@ export default defineComponent({
         },
       ],
     };
-    const onSubmit = async () => {
-     console.log(2);
-    };
+    const forms = ref();
+    async function onSubmit() {
+      loginLoading = true;
+      if (!forms.value) return;
+      try {
+        await forms.value.validate();
+        await login(ruleform).then((res) => {
+          if (res.state !== 1) {
+            ElMessage.error(res.message);
+          } else {
+            store.commit("setUser", res.content);
+            router.push({
+              name: "home",
+            });
+            router.push((route.query.redirect as string) || "/");
+            ElMessage.success("登录成功");
+          }
+          loginLoading = false;
+        });
+      } catch (error) {}
+    }
     return {
-      form,
+      ruleform,
       forms,
       rules,
       onSubmit,
+      loginLoading,
     };
   },
 });

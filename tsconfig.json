@@ -1,5 +1,8 @@
+
 {
   "compilerOptions": {
+
+    "noUnusedParameters":false,
     "target": "esnext",
     "module": "esnext",
     "strict": true,
@@ -11,14 +14,15 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "sourceMap": true,
-    "baseUrl": ".",
     "types": [
       "webpack-env"
     ],
+    "baseUrl": "./",
     "paths": {
       "@/*": [
         "src/*"
-      ]
+      ],
+      "@/assets/*":["./src/assets/*"]
     },
     "lib": [
       "esnext",
@@ -32,9 +36,11 @@
     "src/**/*.tsx",
     "src/**/*.vue",
     "tests/**/*.ts",
-    "tests/**/*.tsx"
-, "src/plugins/element.ts"  ],
+    "tests/**/*.tsx", 
+    "src/plugins/element.ts",
+    "images.d.ts" ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+
 }

@@ -53,7 +53,6 @@
         </el-menu-item>
       </el-submenu>
     </el-menu>
-
   </div>
 </template>
 
@@ -74,6 +73,8 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .aside {
+  min-height: 100vh;
+
   .el-menu {
     min-height: 100vh;
   }

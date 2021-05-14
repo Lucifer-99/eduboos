@@ -30,7 +30,8 @@ export default defineComponent({
   min-width: 980px;
 }
 .el-aside {
-  background: #d3dce6;
+  background: #545c64;
+
 }
 .el-header {
   background: #fff;
